@@ -1,0 +1,45 @@
+import subprocess
+import os
+import shutil
+
+id_jeux = "1118200"
+
+#Demande les emplacelent des apps
+path_steamcmd = input("Entrer l'emplacement de l'executable de steamCMD : ")
+path_People_Playground = input("Entrer le path du dossier mod de  People Playground : ")
+
+print (f"L'executable de steamCMD est : {path_steamcmd}")
+print (f"L'emplacement du dossier mod de people playground est : {path_People_Playground}")
+
+id_workshop = input("Entrer l'id du mod (fin de l'url apres id=xxxxx) : ")
+
+steamcmd_dir = os.path.dirname(path_steamcmd)
+
+print (f"Le dir de steamcmd est : {steamcmd_dir}")
+
+#Se connecte et installe le mod
+command_steamcmd = [
+    "login anonymous",
+    f"workshop_download_item {id_jeux} {id_workshop}",
+    "quit"
+]
+
+#Prepare le lancement de steamcmd
+steamcmd_arg = [path_steamcmd] + [f"+{cmd}" for cmd in command_steamcmd]
+
+#lance steamcmd avec les argument obligatoire
+subprocess.run(steamcmd_arg)
+
+mod_path = os.path.join(steamcmd_dir, "steamapps", "workshop", "content", id_jeux, id_workshop)
+
+print (f"mod telecharge dans : {mod_path}")
+
+dest_path = os.path.join(path_People_Playground, id_workshop)
+
+if os.path.exists(mod_path):
+    if os.path.exists(dest_path):
+        shutil.rmtree(dest_path)  # supprime ancienne version du mod
+    shutil.copytree(mod_path, dest_path)
+    print(f"✅ Mod {id_workshop} installé dans People Playground !")
+else:
+    print("❌ Erreur : mod non trouvé après téléchargement.")
