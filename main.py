@@ -1,12 +1,32 @@
 import subprocess
 import os
 import shutil
+from zipfile import ZipFile
+import importlib
+import time
+
+libs = ["os", "subprocess", "shutil", "zipfile", "importlib", "time"]
+
+for lib in libs:
+    try:
+        importlib.import_module(lib)
+        print(f"Library {lib} ✅ OK")
+    except ImportError:
+        print(f"Library {lib} ❌ Non installé")
+    time.sleep(0.5)
 
 id_jeux = "1118200"
 
 #Demande les emplacelent des apps
-path_steamcmd = input("Entrer l'emplacement de l'executable de steamCMD : ")
+path_steamcmd = input("Entrer l'emplacement de l'executable de steamCMD, si vous n'avez pas steamCMD, metter rien pour le telecharger automatiquement : ")
 path_People_Playground = input("Entrer le path du dossier mod de  People Playground : ")
+
+if path_steamcmd == "":
+    os.system("curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip -o steamcmd.zip")
+    with ZipFile("steamcmd.zip", 'r') as zip: 
+        # extraire tous les fichiers vers un autre répertoire
+        zip.extractall("steamcmd")
+        path_steamcmd = "steamcmd\steamcmd.exe"
 
 print (f"L'executable de steamCMD est : {path_steamcmd}")
 print (f"L'emplacement du dossier mod de people playground est : {path_People_Playground}")
