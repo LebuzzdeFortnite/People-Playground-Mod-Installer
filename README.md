@@ -1,1 +1,1 @@
-A simple Mod Downloader / Installer for People Playground
+A simple Mod Downloader / Installer for multiple games
