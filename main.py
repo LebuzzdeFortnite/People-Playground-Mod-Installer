@@ -15,11 +15,20 @@ for lib in libs:
         print(f"Library {lib} ❌ Non installé")
     time.sleep(0.5)
 
-id_jeux = "1118200"
+liste_games = {
+    "People Playground": "1118200",
+    "transport fever 2": "1066780",
+    "project zomboid": "108600",
+}
+
+print("Jeux disponibles :")
+for i, game in enumerate(liste_games.keys(), 1):
+    print(f"{i}. {game}")
 
 #Demande les emplacelent des apps
+id_jeux = list(liste_games.values())[int(input("Entrer le numéro du jeu pour lequel vous voulez installer un mod : ")) - 1]
 path_steamcmd = input("Entrer l'emplacement de l'executable de steamCMD, si vous n'avez pas steamCMD, metter rien pour le telecharger automatiquement : ")
-path_People_Playground = input("Entrer le path du dossier mod de  People Playground : ")
+path_People_Playground = input("Entrer le path du dossier mod du jeu sélectionné : ")
 
 if path_steamcmd == "":
     os.system("curl https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip -o steamcmd.zip")
@@ -60,6 +69,6 @@ if os.path.exists(mod_path):
     if os.path.exists(dest_path):
         shutil.rmtree(dest_path)  # supprime ancienne version du mod
     shutil.copytree(mod_path, dest_path)
-    print(f"✅ Mod {id_workshop} installé dans People Playground !")
+    print(f"✅ Mod {id_workshop} installé !")
 else:
     print("❌ Erreur : mod non trouvé après téléchargement.")
